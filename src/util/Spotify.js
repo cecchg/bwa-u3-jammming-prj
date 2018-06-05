@@ -62,20 +62,14 @@ class Spotify{
     headers: {Authorization: `Bearer ${accessToken}`
     },
     method: 'POST',
-    body: {
-    refresh_token: "https://accounts.spotify.com/api/token",
-    grant_type: refresh_token,
+    body: JSON.stringify({id: '200'})
   })
       let playlist = fetch ("https://api.spotify.com/v1/users/v1/users/{user_id}/playlists/{playlist_id}/tracks", {
     headers: {Authorization: `Bearer ${accessToken}`
     },
     method: 'POST',
-    body: {
-    refresh_token: "https://accounts.spotify.com/api/token",
-    grant_type: refresh_token,
-    }))
-    }
+    body: JSON.stringify({id: '200'})
+  })
   }
-}
 }
 export default Spotify;
