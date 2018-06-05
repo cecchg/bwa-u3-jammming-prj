@@ -1,5 +1,5 @@
 const clientId = '36a904242d2649709a1dbca5ad68a39d';
-const redirectURI = "http://localhost:3000/";
+const redirectURI = "http://localhost:3000/myProject.surge.sh";
 let accessToken = '';
 
 class Spotify{
@@ -54,34 +54,28 @@ class Spotify{
     }
     else{
       const accessToken = accessToken;
-      let header: {
-       authorization: accessToken
-       }
-       let body: {
-         grant_type: refresh_token,
-         refresh_token: "https://accounts.spotify.com/api/token"
-       }
       let user_id = ''
-      user_id = return fetch ("https://api.spotify.com/v1/me", {
-    headers: {Authorization: `Bearer ${accessToken}`
+      user_id = fetch ("https://api.spotify.com/v1/me", {
+    headers: {Authorization: `Bearer ${accessToken}`}
     })
-      let playlistID = return fetch ("https://api.spotify.com/v1/users/{user_id}/playlists", {
+      let playlistID = fetch ("https://api.spotify.com/v1/users/{user_id}/playlists", {
     headers: {Authorization: `Bearer ${accessToken}`
     },
     method: 'POST',
     body: {
+    refresh_token: "https://accounts.spotify.com/api/token",
     grant_type: refresh_token,
-    refresh_token: "https://accounts.spotify.com/api/token"
-    })
-      let playlist = return fetch ("https://api.spotify.com/v1/users/v1/users/{user_id}/playlists/{playlist_id}/tracks", {
+  })
+      let playlist = fetch ("https://api.spotify.com/v1/users/v1/users/{user_id}/playlists/{playlist_id}/tracks", {
     headers: {Authorization: `Bearer ${accessToken}`
     },
     method: 'POST',
     body: {
+    refresh_token: "https://accounts.spotify.com/api/token",
     grant_type: refresh_token,
-    refresh_token: "https://accounts.spotify.com/api/token"
     }))
     }
   }
+}
 }
 export default Spotify;
