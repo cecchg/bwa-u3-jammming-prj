@@ -62,9 +62,25 @@ class Spotify{
          refresh_token: "https://accounts.spotify.com/api/token"
        }
       let user_id = ''
-      user_id = return fetch ("https://api.spotify.com/v1/me", {header: header})
-      let playlistID = return fetch ("https://api.spotify.com/v1/users/{user_id}/playlists", {header: header, method: POST, body: body})
-      let playlist = return fetch ("https://api.spotify.com/v1/users/v1/users/{user_id}/playlists/{playlist_id}/tracks", {header: header, method: POST, body: body})
+      user_id = return fetch ("https://api.spotify.com/v1/me", {
+    headers: {Authorization: `Bearer ${accessToken}`
+    })
+      let playlistID = return fetch ("https://api.spotify.com/v1/users/{user_id}/playlists", {
+    headers: {Authorization: `Bearer ${accessToken}`
+    },
+    method: 'POST',
+    body: {
+    grant_type: refresh_token,
+    refresh_token: "https://accounts.spotify.com/api/token"
+    })
+      let playlist = return fetch ("https://api.spotify.com/v1/users/v1/users/{user_id}/playlists/{playlist_id}/tracks", {
+    headers: {Authorization: `Bearer ${accessToken}`
+    },
+    method: 'POST',
+    body: {
+    grant_type: refresh_token,
+    refresh_token: "https://accounts.spotify.com/api/token"
+    }))
     }
   }
 }
