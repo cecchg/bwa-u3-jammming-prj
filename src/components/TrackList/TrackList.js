@@ -11,15 +11,23 @@ class TrackList extends React.Component{
     let onRemove = this.props.onRemove;
     let removeTrack = this.props.onRemove(this.props.track);
   }
+  isRemoval = true;ß
 
   render(){
     return(
-      <div className="TrackList"
+      <div className="TrackList">
+           <li onAdd = {this.props.onAdd}>
+           </li>
+           <li onRemove = {this.props.onRemove}>
+           </li>
+           removeTrack={this.props.onRemove(this.props.track)}
            onClick={this.addTrack}>
-           let track = this.props.tracks.map()
-           <h1>{this.props.track.name}</h1>
-           <h1>{this.props.track.artist}</h1>
-           <h1>{this.props.track.album}</h1>
+           {
+             this.props.tracks.map(track => {
+               return <Track track={track} />
+             })
+           }
+
       </div>
     );
   }

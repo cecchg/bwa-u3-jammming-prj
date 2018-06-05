@@ -10,10 +10,8 @@ class SearchResults extends React.Component{
     return(
      <div className="SearchResults">
       <h2>Results</h2>
-      <tracks = this.props.SearchResults.map()>
-      <{this.props.track.name}>
-      <{this.props.track.artist}>
-      <{this.props.track.album}>
+      <li onAdd = {this.props.onAdd}>
+      </li>
      </div>
     );
   }

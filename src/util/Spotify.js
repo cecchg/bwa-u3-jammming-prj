@@ -1,5 +1,5 @@
 const clientId = '36a904242d2649709a1dbca5ad68a39d';
-const redirectURI = "https://jamming.surge.sh";
+const redirectURI = "http://localhost:3000/";
 let accessToken = '';
 
 class Spotify{
@@ -7,10 +7,16 @@ class Spotify{
     if(accessToken){
       return accessToken;
     }
-    else if("access_token" in window.location){
-       let accessToken = window.location.href.match(/access_token=([^&]*)/);
-       let expirationTime = window.location.href.match(/expires_in=([^&]*)/);
-       if(expirationTime === window.setTimeout){
+    else if("access_token" in window.location.href){
+       let accessTokenArray = window.location.href.match(/access_token=([^&]*)/);
+       for(let i=0;i<accessTokenArray.length;i++){
+         accessToken+=accessTokenArray[i];
+       }
+       let expirationTimeArray = window.location.href.match(/expires_in=([^&]*)/);
+       for(let i=0;i<expirationTimeArray.length;i++){
+         expirationTime+=expirationTimeArray[i];
+       }
+       if(expirationTime === Integer.toString(window.setTimeout)){
         window.setTimeout(() => accessToken = '', expirationTime * 1000);
         window.history.pushState('Access Token', null, '/');
       }
@@ -20,29 +26,30 @@ class Spotify{
     }
   }
   search(term){
-    fetch("https://api.spotify.com/v1/search?type=track&q=" + term, {
-  headers: {Authorization: `Bearer ${accessToken}`}
+    return fetch("https://api.spotify.com/v1/search?type=track&q=" + term, {
+  headers: {Authorization: `Bearer ${accessToken}`
+  }
 }).then(response => {
-    if (response.ok) {
-      return response.json();
-    }
-    throw new Error('Request failed!');
-  }, networkError => console.log(networkError.message)).then(jsonResponse =>{
-    let tracks = jsonResponse.map();
-    if (tracks.size===0){
-      return []
-    }
-    else{
-      let trackArray = [];
-      for(let i = 0;i<tracks.size;i++){
-        trackArray.add(tracks[i].id, tracks[i].name, tracks[i].artist[0].name, tracks[i].album.name, tracks[i].uri)
-      }
-      return trackArray
-    }
-  });
-}
+  return response.json();
+}).then(jsonResponse => {
+  if (jsonResponse.tracks) {
+    return jsonResponse.tracks.map(tracks => ({
+      id: track.id,
+      name: track.name,
+      artist: track.artists[0].name,
+      album: track.album.name,
+      uri: track.uri,
+    }));
+  }
+  else{
+    return [];
+  }
+});
+};
+
+
   savePlaylist(name, uri){
-    if(!(name && uri)){
+    if((tracks.name && tracks.uri)){
       return;
     }
     else{
@@ -50,10 +57,14 @@ class Spotify{
       let header: {
        authorization: accessToken
        }
+       let body: {
+         grant_type: refresh_token,
+         refresh_token: "https://accounts.spotify.com/api/token"
+       }
       let user_id = ''
       user_id = ("https://api.spotify.com/v1/me", {header: header})
-      Spotify.POST("https://api.spotify.com/v1/users/{user_id}/playlists", {header: header, method: '', body: ''})
-      let playlistID = Spotify.POST("https://api.spotify.com/v1/users/{user_id}/playlists/{playlist_id}/tracks", {header: header, method: '', body: ''})
+      let playlistID = ("https://api.spotify.com/v1/users/{user_id}/playlists", {header: header, method: POST, body: body})
+      let playlist = ("https://api.spotify.com/v1/users/v1/users/{user_id}/playlists/{playlist_id}/tracks", {header: header, method: POST, body: body})
     }
   }
 }
